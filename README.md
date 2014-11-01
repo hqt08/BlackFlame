@@ -15,4 +15,4 @@ git pull
 
 ##clone repository:
 
-git clone http://<repository>
+git clone https://github.com/hqt08/BlackFlame.git
