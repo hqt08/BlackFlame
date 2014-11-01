@@ -3,7 +3,7 @@ BlackFlame
 
 ##git instructions:
     
-git add "your new files"
+git add "your new files"           or for all:  git add .
 
 git commit -a -m "your new message"
 
