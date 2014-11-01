@@ -1,0 +1,20 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class DoSomething01 : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		GameManager.Notifications.AddListener(this, "Call01");
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+
+	public void Call01 (Component sender)
+	{
+		print ("I am 01.");
+	}
+}
