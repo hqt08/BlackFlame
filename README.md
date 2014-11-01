@@ -1,7 +1,7 @@
 BlackFlame
 ==========
 
-git instructions:
+##git instructions:
     
 git add "your new files"
 
@@ -9,10 +9,10 @@ git commit -a -m "your new message"
 
 git push
     
-pull down changes:
+##pull down changes:
 
 git pull
 
-clone repository:
+##clone repository:
 
 git clone http://<repository>
