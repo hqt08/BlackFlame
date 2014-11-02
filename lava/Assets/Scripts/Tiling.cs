@@ -2,32 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public delegate void destroyFunc(GameObject t);
+
 public class Tiling : MonoBehaviour {
 	public GameObject tile_obj;
 	TileManager tm;
-	List<GameObject> tiles_list;
 	float startTime;
-	float interval = 0.5f;
+	public float interval = 0.5f;
+	public int height = 8;
+	public int width = 8;
 	
 	// Use this for initialization
 	void Start () {
-		tm = new TileManager (8, 8);
-		tiles_list = new List <GameObject> ();
+		tm = new TileManager (width, height);
+		tm.addDestroyFunc (destroyTile);
+		//tiles_list = new List <GameObject> ();
 		drawTiles ();
-		startTime = Time.time;
+		startTime = Time.timeSinceLevelLoad;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time - startTime > interval) { 
-			//tm.updateTiles ();
-			int numberToRemove = Random.Range (1, 3);
-			for (int i = 0; i< numberToRemove; i++) {
-				GameObject t = tiles_list[0];
-				tiles_list.RemoveAt (0);
-				Destroy(t);
-			}
-			startTime = Time.time;
+		if (Time.timeSinceLevelLoad - startTime > interval) { 
+			tm.updateTiles ();
+			startTime = Time.timeSinceLevelLoad;
 		}
 	}
 	
@@ -37,8 +35,18 @@ public class Tiling : MonoBehaviour {
 			Debug.Log(position);
 			Quaternion rotation = Quaternion.identity;
 			GameObject tile = (GameObject) Instantiate(tile_obj, position, rotation);
-			tiles_list.Add(tile);
+			t.setGameObject(tile);
 		}
+	}
+
+	void destroyTiles(List<GameObject> tilesToDestroy) {
+		foreach (GameObject t in tilesToDestroy) {
+			Destroy(t);
+		}
+	}
+
+	void destroyTile(GameObject t) {
+		Destroy(t);
 	}
 }
 
@@ -46,12 +54,17 @@ public class TileManager {
 	int height;
 	int width;
 	public List<Tile> tiles;
+	destroyFunc destroyTileFunc;
 	
 	public TileManager(int height, int width) {
 		this.height = height;
 		this.width = width;
 		tiles = new List<Tile> ();
 		createRandomTileList ();
+	}
+
+	public void addDestroyFunc(destroyFunc df) {
+		destroyTileFunc = df;
 	}
 	
 	public void createRandomTileList() {
@@ -75,9 +88,13 @@ public class TileManager {
 	}
 	
 	public void updateTiles() {
-		int numberToRemove = Random.Range (1, 2);
-		for (int i = 0; i< numberToRemove; i++) {
-			tiles.RemoveAt (1);
+		int numberToRemove = Random.Range (1, 3);
+		if (tiles.Count >= numberToRemove) {
+			for (int i = 0; i< numberToRemove; i++) {
+				Tile t = tiles[0];
+				destroyTileFunc(t.obj); //destroy gameobject
+				tiles.RemoveAt (0); //remove from list
+			}
 		}
 	}
 }
@@ -91,6 +108,7 @@ public class Tile {
 	float h3 = 0.9f;
 	float x_offset = -5f;
 	float y_offset = -2.5f;
+	public GameObject obj;
 	
 	public Tile(int x, int y) {
 		this.x = x;
@@ -107,5 +125,9 @@ public class Tile {
 		position [0] = (y % 2 == 0) ? x * h2 + h + x_offset : x * h2 + h2 + x_offset; // x position
 		position [1] = y * h3  + y_offset;  // y position
 		return position;
+	}
+
+	public void setGameObject(GameObject obj) {
+		this.obj = obj;
 	}
 }
