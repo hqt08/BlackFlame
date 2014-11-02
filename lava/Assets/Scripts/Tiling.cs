@@ -31,7 +31,7 @@ public class Tiling : MonoBehaviour {
 	void drawTiles() {
 		foreach (Tile t in tm.tiles) {
 			Vector3 position = t.getCenter();
-			Debug.Log(position);
+			//Debug.Log(position);
 			Quaternion rotation = Quaternion.identity;
 			GameObject tile = (GameObject) Instantiate(tile_obj, position, rotation);
 			t.setGameObject(tile);
