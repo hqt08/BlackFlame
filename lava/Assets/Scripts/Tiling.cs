@@ -16,7 +16,6 @@ public class Tiling : MonoBehaviour {
 	void Start () {
 		tm = new TileManager (width, height);
 		tm.addDestroyFunc (destroyTile);
-		//tiles_list = new List <GameObject> ();
 		drawTiles ();
 		startTime = Time.timeSinceLevelLoad;
 	}
@@ -103,9 +102,9 @@ public class Tile {
 	Vector3 position;
 	int x;
 	int y;
-	float h = 0.61f;
-	float h2 = 1.22f;
-	float h3 = 0.9f;
+	float h = 0.63f;
+	float h2 = 1.26f;
+	float h3 = 0.95f;
 	float x_offset = -5f;
 	float y_offset = -2.5f;
 	public GameObject obj;
