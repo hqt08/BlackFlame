@@ -38,7 +38,9 @@ public class GameManager : MonoBehaviour
 
 	//Internal reference to notifications object
 	private static NotificationsManager notifications = null;
-	
+
+	public int levelNum = 0;
+
 	//public variables
 	//--------------------------------------------------------------
 	// Called before Start on object creation
@@ -78,5 +80,16 @@ public class GameManager : MonoBehaviour
 
 	}
 	//--------------------------------------------------------------
+
+	public void LoadNextLevel ()
+	{
+		levelNum++;
+		Application.LoadLevel (levelNum);
+	}
+
+	public void LoadSameLevel ()
+	{
+		Application.LoadLevel (levelNum);
+	}
 	
 }

@@ -31,11 +31,18 @@ public class Tiling : MonoBehaviour {
 	void drawTiles() {
 		foreach (Tile t in tm.tiles) {
 			Vector3 position = t.getCenter();
-			//Debug.Log(position);
+			Debug.Log(position);
 			Quaternion rotation = Quaternion.identity;
 			GameObject tile = (GameObject) Instantiate(tile_obj, position, rotation);
 			t.setGameObject(tile);
 		}
+	}
+
+	public void redrawTiles() {
+		tm.destroyAllTiles ();
+		tm = new TileManager (width, height);
+		tm.addDestroyFunc (destroyTile);
+		drawTiles ();
 	}
 
 	void destroyTiles(List<GameObject> tilesToDestroy) {
@@ -95,6 +102,13 @@ public class TileManager {
 				tiles.RemoveAt (0); //remove from list
 			}
 		}
+	}
+
+	public void destroyAllTiles() {
+		foreach (Tile t in tiles) {
+			destroyTileFunc(t.obj); //destroy gameobject
+		}
+		tiles = new List<Tile> ();
 	}
 }
 
